@@ -10,22 +10,28 @@ import { Separator } from "@/components/ui/separator";
 import { ApiList } from "@/components/ui/api-list";
 
 import { columns, ColorColumn } from "./columns";
+import { useState } from "react";
 
 interface ColorClientProps {
   data: ColorColumn[];
 }
 
-export const ColorClient: React.FC<ColorClientProps> = ({
-  data
-}) => {
+export const ColorClient: React.FC<ColorClientProps> = ({ data }) => {
   const params = useParams();
   const router = useRouter();
+
+  const [loading, setLoading] = useState(false);
+
+  const handleNewColor = () => {
+    setLoading(true);
+    router.push(`/${params.storeId}/colors/new`);
+  };
 
   return (
     <>
       <div className="flex items-center justify-between">
         <Heading title={`Cores (${data.length})`} description="Editar cores" />
-        <Button onClick={() => router.push(`/${params.storeId}/colors/new`)}>
+        <Button onClick={handleNewColor} disabled={loading}>
           <Plus className="mr-2 h-4 w-4" /> Novo
         </Button>
       </div>

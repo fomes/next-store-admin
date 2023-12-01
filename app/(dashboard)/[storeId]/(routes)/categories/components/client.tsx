@@ -11,22 +11,31 @@ import { ApiAlert } from "@/components/ui/api-alert";
 
 import { columns, CategoryColumn } from "./columns";
 import { ApiList } from "@/components/ui/api-list";
+import { useState } from "react";
 
 interface CategoriesClientProps {
   data: CategoryColumn[];
 }
 
-export const CategoriesClient: React.FC<CategoriesClientProps> = ({
-  data
-}) => {
+export const CategoriesClient: React.FC<CategoriesClientProps> = ({ data }) => {
   const params = useParams();
   const router = useRouter();
+
+  const [loading, setLoading] = useState(false);
+
+  const handleNewCategory = () => {
+    setLoading(true);
+    router.push(`/${params.storeId}/categories/new`);
+  };
 
   return (
     <>
       <div className="flex items-center justify-between">
-        <Heading title={`Categorias (${data.length})`} description="Editar categorias da sua loja" />
-        <Button onClick={() => router.push(`/${params.storeId}/categories/new`)}>
+        <Heading
+          title={`Categorias (${data.length})`}
+          description="Editar categorias da sua loja"
+        />
+        <Button onClick={handleNewCategory} disabled={loading}>
           <Plus className="mr-2 h-4 w-4" /> Novo
         </Button>
       </div>
