@@ -18,22 +18,8 @@ import { useParams, useRouter } from "next/navigation";
 import ImageUpload from "@/components/ui/image-upload";
 import { AlertModal } from "@/components/modals/alert-modal";
 import { Category, Color, Image, Product, Size } from "@prisma/client";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 
 const formSchema = z.object({
   name: z.string().min(1),
@@ -72,10 +58,10 @@ export const ProductForm: React.FC<ProductFormProps> = ({
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const title = initialData ? "Edit product" : "Create product";
-  const description = initialData ? "Edit a product." : "Add a new product";
-  const toastMessage = initialData ? "Product updated." : "Product created.";
-  const action = initialData ? "Save changes" : "Create";
+  const title = initialData ? "Editar produto" : "Criar produto";
+  const description = initialData ? "Editar produto" : "Adicionar novo produto";
+  const toastMessage = initialData ? "Produto atualizado." : "Produto criado.";
+  const action = initialData ? "Salvar" : "Criar";
 
   const defaultValues = initialData
     ? {
@@ -114,7 +100,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
       router.push(`/${params.storeId}/products`);
       toast.success(toastMessage);
     } catch (error: any) {
-      toast.error("Something went wrong.");
+      toast.error("Algo deu errado!");
     } finally {
       setLoading(false);
     }
@@ -128,7 +114,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
       router.push(`/${params.storeId}/products`);
       toast.success("Product deleted.");
     } catch (error: any) {
-      toast.error("Something went wrong.");
+      toast.error("Algo deu errado!");
     } finally {
       setLoading(false);
       setOpen(false);
@@ -167,7 +153,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
             name="images"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Images</FormLabel>
+                <FormLabel>Imagens</FormLabel>
                 <FormControl>
                   <ImageUpload
                     value={field.value.map((image) => image.url)}
@@ -192,7 +178,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name</FormLabel>
+                  <FormLabel>Nome</FormLabel>
                   <FormControl>
                     <Input
                       disabled={loading}
@@ -209,7 +195,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
               name="price"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Price</FormLabel>
+                  <FormLabel>Preço</FormLabel>
                   <FormControl>
                     <Input
                       type="number"
@@ -227,7 +213,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
               name="stock"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Stock</FormLabel>
+                  <FormLabel>Estoque</FormLabel>
                   <FormControl>
                     <Input
                       type="number"
@@ -245,7 +231,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
               name="categoryId"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Category</FormLabel>
+                  <FormLabel>Categoria</FormLabel>
                   <Select
                     disabled={loading}
                     onValueChange={field.onChange}
@@ -277,7 +263,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
               name="sizeId"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Size</FormLabel>
+                  <FormLabel>Tamanho</FormLabel>
                   <Select
                     disabled={loading}
                     onValueChange={field.onChange}
@@ -309,7 +295,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
               name="colorId"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Color</FormLabel>
+                  <FormLabel>Cor</FormLabel>
                   <Select
                     disabled={loading}
                     onValueChange={field.onChange}
@@ -351,7 +337,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                   <div className="space-y-1 leading-none">
                     <FormLabel>Featured</FormLabel>
                     <FormDescription>
-                      This product will appear on the home page
+                      Este produto aparecerá na página inicial
                     </FormDescription>
                   </div>
                 </FormItem>
@@ -372,7 +358,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                   <div className="space-y-1 leading-none">
                     <FormLabel>Archived</FormLabel>
                     <FormDescription>
-                      This product will not appear anywhere in the store.
+                      Este produto não aparecerá em nenhum lugar da loja.
                     </FormDescription>
                   </div>
                 </FormItem>
