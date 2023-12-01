@@ -16,7 +16,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Separator } from "@/components/ui/separator";
 import { useParams, useRouter } from "next/navigation";
 import { AlertModal } from "@/components/modals/alert-modal";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Colorful } from "@uiw/react-color";
 
 const formSchema = z.object({
   name: z.string().min(2),
@@ -37,6 +45,7 @@ export const ColorForm: React.FC<ColorFormProps> = ({ initialData }) => {
 
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [hex, setHex] = useState("#59c09a");
 
   const title = initialData ? "Editar cor" : "Criar cor";
   const description = initialData ? "Editar cor" : "Adicionar nova cor";
@@ -84,6 +93,11 @@ export const ColorForm: React.FC<ColorFormProps> = ({ initialData }) => {
       setLoading(false);
       setOpen(false);
     }
+  };
+
+  const onCopy = (id: string) => {
+    navigator.clipboard.writeText(id);
+    toast.success("Valor copiado!");
   };
 
   return (
@@ -140,10 +154,26 @@ export const ColorForm: React.FC<ColorFormProps> = ({ initialData }) => {
                   <FormControl>
                     <div className="flex items-center gap-x-4">
                       <Input
-                        disabled={loading}
-                        placeholder="Exemplo: #90a18f"
                         {...field}
+                        disabled={loading}
+                        className="max-w-[200px]"
+                        placeholder="Exemplo: #90a18f"
                       />
+                      <div className="absolute mt-[21rem]">
+                        <Colorful
+                          color={hex}
+                          onChange={(color) => {
+                            setHex(color.hexa);
+                          }}
+                        />
+                        <div
+                          onClick={() => onCopy(hex)}
+                          style={{ background: hex }}
+                          className="mt-[10px] p-[10px] cursor-pointer hover:scale-105 transition-all duration-300"
+                        >
+                          {hex}
+                        </div>
+                      </div>
                       <div
                         className="border p-4 rounded-full"
                         style={{ backgroundColor: field.value }}

@@ -37,7 +37,7 @@ export const CellAction: React.FC<CellActionProps> = ({
       toast.success('Product deleted.');
       router.refresh();
     } catch (error) {
-      toast.error('Something went wrong');
+      toast.error('Algo deu errado!');
     } finally {
       setLoading(false);
       setOpen(false);
@@ -46,7 +46,7 @@ export const CellAction: React.FC<CellActionProps> = ({
 
   const onCopy = (id: string) => {
     navigator.clipboard.writeText(id);
-    toast.success('Product ID copied to clipboard.');
+    toast.success('ID do produto copiado!');
   }
 
   return (
