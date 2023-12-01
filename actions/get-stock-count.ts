@@ -1,12 +1,14 @@
 import prismadb from "@/lib/prismadb";
 
 export const getStockCount = async (storeId: string) => {
-  const stockCount = await prismadb.product.count({
+  const products = await prismadb.product.findMany({
     where: {
       storeId,
       isArchived: false,
-    }
+    },
   });
 
-  return stockCount;
+  const stockSum = products.reduce((acc, product) => acc + product.stock, 0);
+
+  return stockSum;
 };
