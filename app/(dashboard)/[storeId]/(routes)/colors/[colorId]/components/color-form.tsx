@@ -21,7 +21,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 const formSchema = z.object({
   name: z.string().min(2),
   value: z.string().min(4).max(9).regex(/^#/, {
-    message: "String must be a valid hex code",
+    message: "Insira um valor hexadecimal!",
   }),
 });
 
@@ -123,7 +123,7 @@ export const ColorForm: React.FC<ColorFormProps> = ({ initialData }) => {
                   <FormControl>
                     <Input
                       disabled={loading}
-                      placeholder="Color name"
+                      placeholder="Nome da cor"
                       {...field}
                     />
                   </FormControl>
@@ -141,7 +141,7 @@ export const ColorForm: React.FC<ColorFormProps> = ({ initialData }) => {
                     <div className="flex items-center gap-x-4">
                       <Input
                         disabled={loading}
-                        placeholder="Color value"
+                        placeholder="Exemplo: #90a18f"
                         {...field}
                       />
                       <div

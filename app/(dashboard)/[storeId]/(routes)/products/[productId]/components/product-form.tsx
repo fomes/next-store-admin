@@ -23,7 +23,7 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 
 const formSchema = z.object({
   name: z.string().min(1),
-  images: z.object({ url: z.string() }).array(),
+  images: z.object({ url: z.string() }).array().min(1),
   price: z.coerce.number().min(1),
   categoryId: z.string().min(1),
   colorId: z.string().min(1),
@@ -59,7 +59,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
   const [loading, setLoading] = useState(false);
 
   const title = initialData ? "Editar produto" : "Criar produto";
-  const description = initialData ? "Editar produto" : "Adicionar novo produto";
+  const description = initialData ? "Editar produto" : "Adicionar novo produto a loja";
   const toastMessage = initialData ? "Produto atualizado." : "Produto criado.";
   const action = initialData ? "Salvar" : "Criar";
 
@@ -182,7 +182,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                   <FormControl>
                     <Input
                       disabled={loading}
-                      placeholder="Product name"
+                      placeholder="Nome do produto"
                       {...field}
                     />
                   </FormControl>
@@ -200,7 +200,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                     <Input
                       type="number"
                       disabled={loading}
-                      placeholder="9.99"
+                      placeholder="9,99"
                       {...field}
                     />
                   </FormControl>
@@ -242,7 +242,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                       <SelectTrigger>
                         <SelectValue
                           defaultValue={field.value}
-                          placeholder="Select a category"
+                          placeholder="Selecione uma categoria"
                         />
                       </SelectTrigger>
                     </FormControl>
@@ -274,7 +274,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                       <SelectTrigger>
                         <SelectValue
                           defaultValue={field.value}
-                          placeholder="Select a size"
+                          placeholder="Selecione um tamanho"
                         />
                       </SelectTrigger>
                     </FormControl>
@@ -306,7 +306,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                       <SelectTrigger>
                         <SelectValue
                           defaultValue={field.value}
-                          placeholder="Select a color"
+                          placeholder="Selecione uma cor"
                         />
                       </SelectTrigger>
                     </FormControl>
@@ -335,7 +335,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                     />
                   </FormControl>
                   <div className="space-y-1 leading-none">
-                    <FormLabel>Featured</FormLabel>
+                    <FormLabel>Exibir</FormLabel>
                     <FormDescription>
                       Este produto aparecerá na página inicial
                     </FormDescription>
@@ -356,7 +356,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                     />
                   </FormControl>
                   <div className="space-y-1 leading-none">
-                    <FormLabel>Archived</FormLabel>
+                    <FormLabel>Arquivado</FormLabel>
                     <FormDescription>
                       Este produto não aparecerá em nenhum lugar da loja.
                     </FormDescription>
