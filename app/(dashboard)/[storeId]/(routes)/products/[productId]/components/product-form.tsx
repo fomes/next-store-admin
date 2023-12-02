@@ -18,8 +18,22 @@ import { useParams, useRouter } from "next/navigation";
 import ImageUpload from "@/components/ui/image-upload";
 import { AlertModal } from "@/components/modals/alert-modal";
 import { Category, Color, Image, Product, Size } from "@prisma/client";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 
 const formSchema = z.object({
   name: z.string().min(1),
@@ -59,7 +73,9 @@ export const ProductForm: React.FC<ProductFormProps> = ({
   const [loading, setLoading] = useState(false);
 
   const title = initialData ? "Editar produto" : "Criar produto";
-  const description = initialData ? "Editar produto" : "Adicionar novo produto a loja";
+  const description = initialData
+    ? "Editar informações do produto"
+    : "Adicionar novo produto a loja";
   const toastMessage = initialData ? "Produto atualizado." : "Produto criado.";
   const action = initialData ? "Salvar" : "Criar";
 
@@ -335,7 +351,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                     />
                   </FormControl>
                   <div className="space-y-1 leading-none">
-                    <FormLabel>Exibir</FormLabel>
+                    <FormLabel>Destaque</FormLabel>
                     <FormDescription>
                       Este produto aparecerá na página inicial
                     </FormDescription>
