@@ -28,7 +28,7 @@ export const columns: ColumnDef<ColorColumn>[] = [
   },
   {
     accessorKey: "createdAt",
-    header: "Data",
+    header: "Cadastrado em",
   },
   {
     id: "actions",

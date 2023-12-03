@@ -24,12 +24,12 @@ export const columns: ColumnDef<ProductColumn>[] = [
   },
   {
     accessorKey: "isFeatured",
-    header: "Exibir",
+    header: "Destaque",
     cell: ({ row }) => <div>{row.original.isFeatured ? "SIM" : "NÃO"}</div>,
   },
   {
     accessorKey: "isArchived",
-    header: "Arquivados",
+    header: "Arquivado",
     cell: ({ row }) => <div>{row.original.isArchived ? "SIM" : "NÃO"}</div>,
   },
   {
@@ -63,7 +63,7 @@ export const columns: ColumnDef<ProductColumn>[] = [
   },
   {
     accessorKey: "createdAt",
-    header: "Data",
+    header: "Cadastrado em",
   },
   {
     id: "actions",

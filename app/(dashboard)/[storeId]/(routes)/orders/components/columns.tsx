@@ -1,5 +1,6 @@
 "use client";
 
+import { cn } from "@/lib/utils";
 import { ColumnDef } from "@tanstack/react-table";
 
 export type OrderColumn = {
@@ -32,6 +33,16 @@ export const columns: ColumnDef<OrderColumn>[] = [
   {
     accessorKey: "isPaid",
     header: "Pago",
+    cell: ({ row }) => (
+      <div
+        className={cn(
+          "w-10 flex justify-center rounded-lg px-2 font-semibold",
+          `${row.original.isPaid ? "bg-lime-500" : "bg-red-500"}`
+        )}
+      >
+        {row.original.isPaid ? "SIM" : "NÃO"}
+      </div>
+    ),
   },
 
   {

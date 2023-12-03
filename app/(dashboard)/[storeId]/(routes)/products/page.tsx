@@ -5,6 +5,7 @@ import { formatter } from "@/lib/utils";
 
 import { ProductsClient } from "./components/client";
 import { ProductColumn } from "./components/columns";
+import { ptBR } from "date-fns/locale";
 
 const ProductsPage = async ({ params }: { params: { storeId: string } }) => {
   const products = await prismadb.product.findMany({
@@ -31,7 +32,9 @@ const ProductsPage = async ({ params }: { params: { storeId: string } }) => {
     size: item.size.name,
     color: item.color.value,
     stock: item.stock,
-    createdAt: format(item.createdAt, "MMMM do, yyyy"),
+    createdAt: format(item.createdAt, "dd/MM/yyyy", {
+      locale: ptBR,
+    }),
   }));
 
   return (
