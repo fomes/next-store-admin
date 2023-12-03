@@ -10,19 +10,20 @@ const Navbar = async () => {
   const { userId } = auth();
 
   if (!userId) {
-    redirect('/sign-in');
+    redirect("/sign-in");
   }
 
   const stores = await prismadb.store.findMany({
     where: {
       userId,
-    }
+    },
   });
 
-  return ( 
-    <div className="border-b">
+  return (
+    <div className="border-b px-4">
       <div className="flex h-16 items-center px-4">
-        <StoreSwitcher items={stores} />
+        {/* <StoreSwitcher items={stores} /> */}
+        <div>{stores[0]?.name}</div>
         <MainNav className="mx-6" />
         <div className="ml-auto flex items-center space-x-4">
           <ThemeToggle />
@@ -32,5 +33,5 @@ const Navbar = async () => {
     </div>
   );
 };
- 
+
 export default Navbar;
