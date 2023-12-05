@@ -4,6 +4,7 @@ import { NextResponse } from "next/server";
 import { stripe } from "@/lib/stripe";
 import prismadb from "@/lib/prismadb";
 
+
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
@@ -18,11 +19,13 @@ export async function POST(
   req: Request,
   { params }: { params: { storeId: string } }
 ) {
-  const { productIds } = await req.json();
+  const { productsArr } = await req.json();
 
-  if (!productIds || productIds.length === 0) {
+  if (!productsArr || productsArr.length === 0) {
     return new NextResponse("Product ids are required", { status: 400 });
   }
+
+  const productIds = productsArr.map((product: any) => product.id);
 
   const products = await prismadb.product.findMany({
     where: {
@@ -35,8 +38,19 @@ export async function POST(
   const line_items: Stripe.Checkout.SessionCreateParams.LineItem[] = [];
 
   products.forEach((product) => {
+    const productArrItem = productsArr.find(
+      (item: any) => item.id === product.id
+    );
+    const quantity = productArrItem ? productArrItem.qtd : 1;
+
+    if (product.stock < quantity) {
+      return new NextResponse(`Not enough stock for product ${product.name}`, {
+        status: 400,
+      });
+    }
+
     line_items.push({
-      quantity: 1,
+      quantity,
       price_data: {
         currency: "BRL",
         product_data: {
@@ -52,25 +66,37 @@ export async function POST(
       storeId: params.storeId,
       isPaid: false,
       orderItems: {
-        create: productIds.map((productId: string) => ({
+        create: productsArr.map((product: any) => ({
           product: {
             connect: {
-              id: productId,
+              id: product.id,
             },
           },
+          quantity: product.qtd,
         })),
       },
     },
   });
 
   for (const product of products) {
+    const productArrItem = productsArr.find(
+      (item: any) => item.id === product.id
+    );
+    const quantity = productArrItem ? productArrItem.qtd : 1;
+
+    if (product.stock < quantity) {
+      return new NextResponse(`Not enough stock for product ${product.name}`, {
+        status: 400,
+      });
+    }
+
     await prismadb.product.update({
       where: {
         id: product.id,
       },
       data: {
         stock: {
-          decrement: 1,
+          decrement: quantity,
         },
       },
     });
