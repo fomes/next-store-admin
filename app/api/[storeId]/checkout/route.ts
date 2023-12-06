@@ -9,8 +9,14 @@ interface ProductProps {
   qtd: number;
 }
 
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type, Authorization",
+};
+
 export async function OPTIONS() {
-  return NextResponse.json({});
+  return NextResponse.json({}, { headers: corsHeaders });
 }
 
 export async function POST(
@@ -114,5 +120,5 @@ export async function POST(
     },
   });
 
-  return NextResponse.json({ url: session.url });
+  return NextResponse.json({ url: session.url }, { headers: corsHeaders });
 }
