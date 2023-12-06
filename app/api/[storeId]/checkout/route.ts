@@ -4,6 +4,11 @@ import { NextResponse } from "next/server";
 import { stripe } from "@/lib/stripe";
 import prismadb from "@/lib/prismadb";
 
+interface ProductProps {
+  id: string;
+  qtd: number;
+}
+
 export async function OPTIONS() {
   return NextResponse.json({});
 }
@@ -18,7 +23,7 @@ export async function POST(
     return new NextResponse("Product ids are required", { status: 400 });
   }
 
-  const productIds = productsArr.map((product: any) => product.id);
+  const productIds = productsArr.map((product: ProductProps) => product.id);
 
   const products = await prismadb.product.findMany({
     where: {
@@ -32,7 +37,7 @@ export async function POST(
 
   products.forEach((product) => {
     const productArrItem = productsArr.find(
-      (item: any) => item.id === product.id
+      (item: ProductProps) => item.id === product.id
     );
     const quantity = productArrItem ? productArrItem.qtd : 1;
 
@@ -59,7 +64,7 @@ export async function POST(
       storeId: params.storeId,
       isPaid: false,
       orderItems: {
-        create: productsArr.map((product: any) => ({
+        create: productsArr.map((product: ProductProps) => ({
           product: {
             connect: {
               id: product.id,
